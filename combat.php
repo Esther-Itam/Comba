@@ -1,5 +1,6 @@
 <?php
 
+
 $manager = new PersonnagesManager($db);
 
 // Si la session perso existe, on restaure l'objet.
@@ -10,8 +11,28 @@ if (isset($_SESSION['perso'])) {
 // Si on a voulu créer un personnage.
 if (isset($_POST['creer']) && isset($_POST['nom'])) {
   // On crée un nouveau personnage.
-  $perso = new Personnage(['nom' => $_POST['nom']]); 
-  // Si le nom est invalide (string vide) on revoit une erreur
+  //var_dump($_POST['classe']);
+  switch ($_POST['classe'])
+  {
+    case 'Magicien' :
+      $perso = new Magicien(['nom' => $_POST['nom']]);
+      break;
+    
+    case 'Guerrier' :
+      $perso = new Guerrier(['nom' => $_POST['nom']]);
+      break;
+
+      case 'Archer' :
+        $perso = new Archer(['nom' => $_POST['nom']]);
+        break;
+    
+    default :
+      $message = 'Le type du personnage est invalide.';
+      break;
+  }
+
+  if(isset($perso))
+  {
   if (!$perso->nomValide()) {
     $message = 'Le nom choisi est invalide.';
     unset($perso);
@@ -25,6 +46,7 @@ if (isset($_POST['creer']) && isset($_POST['nom'])) {
   else {
     $manager->add($perso);
   }
+}
 }
 // Si on a voulu utiliser un personnage.
 elseif (isset($_POST['utiliser']) && isset($_POST['nom'])) {

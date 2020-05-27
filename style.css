@@ -1,0 +1,9 @@
+.carte{
+    display:flex;
+    background-color: blue;
+}
+
+input{
+    border-radius: 5px;
+    background-color: rgb(179, 179, 245);
+}
